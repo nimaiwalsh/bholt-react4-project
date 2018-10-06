@@ -1,35 +1,18 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Pet from './Pet';
+import Pet from './Pet'
 
 class App extends React.Component {
-  handleTitleClick() {
-    alert('you clicked the title')
-  }
-
   render() {
-    return React.createElement(
-      'div',
-      {},
-      React.createElement('h1', { onClick: this.handleTitleClick }, [
-        React.createElement(Pet, {
-          name: 'Jack',
-          animal: 'Dog',
-          breed: 'Havanese'
-        }),
-        React.createElement(Pet, {
-          name: 'Pusnboots',
-          animal: 'Cat',
-          breed: 'Siamese'
-        }),
-        React.createElement(Pet, {
-          name: 'Oscar',
-          animal: 'Bird',
-          breed: 'Cackatoo'
-        })
-      ])
+    return (
+      <div>
+        <h1>Adopt me!</h1>
+        <Pet name="Jack" animal="Dog" breed="Havanese" />
+        <Pet name="Pussie" animal="Cat" breed="Simese" />
+        <Pet name="Squark" animal="Bird" breed="Cockatoo" />
+      </div>
     )
   }
 }
 
-render(React.createElement(App), document.getElementById('root'))
+render(<App />, document.getElementById('root'))
