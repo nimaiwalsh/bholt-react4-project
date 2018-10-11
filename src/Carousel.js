@@ -26,9 +26,12 @@ class Carousel extends Component {
 
   render() {
     const { photos, active } = this.state
+    //Return placeholder if no photo present to avoid error
+    const heroImage = photos[active] ? photos[active].value : 'http://placecorgi.com/300/300'
+
     return (
       <div className="carousel">
-        <img src={photos[active].value} alt="primary animal" />
+        <img src={heroImage} alt="primary animal" />
         <div className="carousel-smaller">
           {photos.map((photo, index) => (
             /* eslint-disable-next-line */

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Router, Link } from '@reach/router'
 import pf from 'petfinder-client'
+import { Provider } from './SearchContext'
 
 import Results from './Results'
 import Details from './Details'
@@ -13,11 +14,19 @@ const petfinder = pf({
 })
 
 class App extends React.Component {
-  state = {
-    cityState: 'Seattle, WA',
-    animal: '',
-    breed: '',
-    breeds: []
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      cityState: 'Seattle, WA',
+      animal: '',
+      breed: '',
+      breeds: [],
+      handleAnimalChange: this.handleAnimalChange,
+      handleBreedChange: this.handleBreedChange,
+      handleCityStateChange: this.handleCityStateChange,
+      getBreeds: this.getBreeds
+    }
   }
 
   handleCityStateChange = event => {
@@ -65,26 +74,19 @@ class App extends React.Component {
       <div>
         <header>
           <Link to="/">Adopt me!</Link>
+          <Link to='/search-params'>
+            <span aria-label="search" role="img">
+              🔍
+            </span>
+          </Link>
         </header>
-        <Router>
-          <Results
-            path="/"
-            handleBreedChange={this.handleBreedChange}
-            handleAnimalChange={this.handleAnimalChange}
-            handleCityStateChange={this.handleCityStateChange}
-            getBreeds={this.getBreeds}
-            {...this.state}
-          />
-          <Details path="/details/:id" />
-          <SearchParams
-            path="/search-params"
-            handleBreedChange={this.handleBreedChange}
-            handleAnimalChange={this.handleAnimalChange}
-            handleCityStateChange={this.handleCityStateChange}
-            getBreeds={this.getBreeds}
-            {...this.state}
-          />
-        </Router>
+        <Provider value={this.state}>
+          <Router>
+            <Results path="/" />
+            <Details path="/details/:id" />
+            <SearchParams path="/search-params" />
+          </Router>
+        </Provider>
       </div>
     )
   }

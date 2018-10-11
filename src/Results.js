@@ -1,5 +1,7 @@
 import React from 'react'
+import { Consumer } from './SearchContext'
 import pf from 'petfinder-client'
+
 import Pet from './Pet'
 import SearchBox from './SearchBox'
 
@@ -18,8 +20,17 @@ class Results extends React.Component {
   }
 
   componentDidMount() {
+    this.search()
+  }
+
+  search = () => {
     petfinder.pet
-      .find({ output: 'full', location: 'Seattle, WA' })
+      .find({
+        output: 'full',
+        location: this.props.searchParams.cityState,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed
+      })
       .then(data => {
         let pets
 
@@ -42,7 +53,7 @@ class Results extends React.Component {
   render() {
     return (
       <div className="search">
-        <SearchBox {...this.props} />
+        <SearchBox search={this.search} />
         {this.state.pets.map(pet => {
           let breed
 
@@ -69,4 +80,13 @@ class Results extends React.Component {
   }
 }
 
-export default Results
+//Wrap Results component with Consumer to access Context state
+//Need to be done with method below if you want to use context in 
+//Lifecycle methods
+export default function ResultsWithContext(props) {
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams={context} />}
+    </Consumer>
+  )
+}
