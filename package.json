@@ -10,6 +10,7 @@
     "dev-server": "parcel src/index.html"
   },
   "devDependencies": {
+    "@types/react": "^16.4.16",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
