@@ -1,5 +1,5 @@
 import React from 'react'
-import { Consumer } from './SearchContext'
+import { connect } from 'react-redux';
 import pf from 'petfinder-client'
 
 import Pet from './Pet'
@@ -27,9 +27,11 @@ class Results extends React.Component {
     petfinder.pet
       .find({
         output: 'full',
-        location: this.props.searchParams.cityState,
-        animal: this.props.searchParams.animal,
-        breed: this.props.searchParams.breed
+        //from Redux
+        location: this.props.location,
+        //from ReactContext
+        animal: this.props.animal,
+        breed: this.props.breed
       })
       .then(data => {
         let pets
@@ -80,13 +82,13 @@ class Results extends React.Component {
   }
 }
 
-//Wrap Results component with Consumer to access Context state
-//Need to be done with method below if you want to use context in 
-//Lifecycle methods
-export default function ResultsWithContext(props) {
-  return (
-    <Consumer>
-      {context => <Results {...props} searchParams={context} />}
-    </Consumer>
-  )
-}
+// Redux
+// State is passed as argument (in this case destructured)
+// State is assigned to prop na
+const mapStateToProps = ({ location, breed, animal }) => ({
+  location: location,
+  breed: breed, 
+  animal: animal
+})
+
+export default connect(mapStateToProps)(Results)

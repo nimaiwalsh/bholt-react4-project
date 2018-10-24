@@ -50,6 +50,7 @@ class Details extends Component {
   }
 
   render() {
+    // Confitional loading screen - use a loading flag
     if (this.state.loading) {
       return <h1>Loading...</h1>
     }
