@@ -32,6 +32,7 @@ export default function getBreeds() {
           })
         }
       })
+      .catch(console.error)
     } else {
       dispatch({
         type: 'SET_BREEDS',
